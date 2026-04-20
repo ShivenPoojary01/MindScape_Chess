@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindScape Chess | Master the Board</title>
+    <link rel="stylesheet" href="assets/chessboard.css">
+    <link rel="stylesheet" href="css/style.css">
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-container">
+            <div class="logo">MindScape Chess</div>
+            
+            <button class="hamburger" id="mobile-menu-btn" aria-label="Toggle menu">
+                <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+
+            <nav class="nav-menu" id="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="about">About</a></li>
+                    <li><a href="#" class="nav-link" data-page="classes">Classes</a></li>
+                    <li><a href="#" class="nav-link" data-page="learn">Learn</a></li>
+                </ul>
+                <button id="theme-toggle" class="btn-theme">Switch Theme</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <div id="home" class="page active">
+            <section class="hero-section">
+                <div class="hero-content">
+                    <span class="badge">New Classes Starting Soon</span>
+                    <h1>Master the Board.<br><span class="highlight">Analyze Every Move.</span></h1>
+                    <p>Join a community of passionate players. Get comprehensive lessons, interactive board studies, and free engine analysis directly in your browser.</p>
+                    <div class="hero-buttons">
+                        <button class="btn-primary" onclick="document.querySelector('[data-page=\'learn\']').click()">Start Learning</button>
+                        <button class="btn-secondary" onclick="document.querySelector('[data-page=\'classes\']').click()">View Classes</button>
+                    </div>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="board-with-eval">
+                        <div class="eval-bar">
+                            <div id="eval-fill" class="eval-fill"></div>
+                        </div>
+                        <div id="hero-board" class="board-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="testimonials-section">
+                <div class="section-header">
+                    <h2>The Wall of Wins</h2>
+                    <p>Real results from players who trusted the process.</p>
+                </div>
+                
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="review-text">"The endgame drills completely changed how I play. I was stuck for months, but the structured lessons helped me finally break the 1500 rating barrier online."</p>
+                        <div class="student-info">
+                            <div class="student-avatar">S</div>
+                            <div>
+                                <h4>Siddharth K.</h4>
+                                <span>Online Masterclass</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="review-text">"Over-the-board vision is a completely different beast. Thanks to the offline academy and group analysis, I secured a top 50 rank in my Inter-Collegiate University Tournament."</p>
+                        <div class="student-info">
+                            <div class="student-avatar">R</div>
+                            <div>
+                                <h4>Riya P.</h4>
+                                <span>Offline Academy (Mumbai)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="review-text">"The interactive board UI is incredible. Being able to step through grandmaster games and understand the 'why' behind every move is a game-changer."</p>
+                        <div class="student-info">
+                            <div class="student-avatar">A</div>
+                            <div>
+                                <h4>Aman D.</h4>
+                                <span>Tactics & Openings</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="cta-section">
+                <div class="cta-container">
+                    <div class="cta-text">
+                        <h2>Ready to make your move?</h2>
+                        <p>Join our offline academy in Mumbai or start online masterclasses today. Drop your details below and we will get in touch.</p>
+                    </div>
+                    
+                    <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent! (We will wire this to a backend later!)');">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Email Address" required>
+                        <select required>
+                            <option value="" disabled selected>Select Program</option>
+                            <option value="offline">Offline Academy (Mumbai)</option>
+                            <option value="online">Online Masterclass</option>
+                        </select>
+                        <button type="submit" class="btn-primary">Request Info</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+        <div id="about" class="page">
+            <section class="about-section">
+                <div class="section-header">
+                    <h2>About MindScape Chess</h2>
+                    <p>Building grandmasters from the ground up.</p>
+                </div>
+                <div class="about-content">
+                    <p>Founded in Mumbai, MindScape Chess is more than just a chess academy. We are a community of passionate players, analysts, and competitors. Our philosophy is simple: we don't just teach you how the pieces move; we teach you how to think, analyze, and dominate the board.</p>
+                    <p>Whether you are touching a pawn for the first time or grinding past a 1500 rating plateau, our structured curriculum and engine-backed analysis ensure you are always making the best move.</p>
+                </div>
+            </section>
+
+            <section class="team-section">
+                <div class="section-header">
+                    <h2>Meet Your Mentors</h2>
+                    <p>Learn directly from titled players and seasoned coaches.</p>
+                </div>
+                
+                <div class="team-grid">
+                    <div class="team-card">
+                        <div class="team-avatar">IM</div>
+                        <h3>Rahul Sharma</h3>
+                        <span class="team-title">Head Coach (Offline)</span>
+                        <p>International Master with 10+ years of coaching experience. Specializes in sharp tactical middle games and tournament psychology.</p>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="team-avatar">FM</div>
+                        <h3>Priya Desai</h3>
+                        <span class="team-title">Opening Specialist</span>
+                        <p>FIDE Master known for deep theoretical preparation. She breaks down complex opening variations into easy-to-understand concepts.</p>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="team-avatar">CM</div>
+                        <h3>Vikram Singh</h3>
+                        <span class="team-title">Endgame Expert</span>
+                        <p>Candidate Master who turns draws into wins. Focuses on pawn structures, king activity, and flawless endgame technique.</p>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="team-avatar">NM</div>
+                        <h3>Anjali Iyer</h3>
+                        <span class="team-title">Online Lead Instructor</span>
+                        <p>National Master and youth chess advocate. Leads our online masterclasses with a highly interactive, energetic teaching style.</p>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="team-avatar">Coach</div>
+                        <h3>Arjun Patel</h3>
+                        <span class="team-title">Beginner Foundations</span>
+                        <p>The architect of our beginner curriculum. Arjun focuses on building unbreakable fundamental habits for new players.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="classes" class="page">
+            <section class="classes-section">
+                <div class="section-header">
+                    <h2>Train With Us</h2>
+                    <p>Whether you want to learn from the comfort of your home or join our in-person sessions in Mumbai, we have a program tailored to your level.</p>
+                </div>
+                
+                <div class="classes-grid">
+                    <div class="class-card">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" width="32" height="32" stroke="var(--accent-color)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        </div>
+                        <h3>Offline Academy</h3>
+                        <p>Over-the-board training. Experience tournament conditions, physical board vision, and direct mentorship.</p>
+                        <button class="btn-secondary">View Schedule</button>
+                    </div>
+
+                    <div class="class-card">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" width="32" height="32" stroke="var(--accent-color)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                        </div>
+                        <h3>Online Masterclass</h3>
+                        <p>Interactive remote sessions using our custom web boards. Tactics, opening prep, and endgame studies.</p>
+                        <button class="btn-secondary">Join Online</button>
+                    </div>
+                    
+                    <div class="class-card">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" width="32" height="32" stroke="var(--accent-color)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        </div>
+                        <h3>Group Analysis</h3>
+                        <p>Weekly group sessions analyzing grandmaster games and reviewing student tournament matches.</p>
+                        <button class="btn-secondary">Learn More</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="learn" class="page">
+            <section class="lesson-section">
+                <div class="section-header">
+                    <h2>Chess Curriculum</h2>
+                    <p>Select a phase of the game to study. Master the fundamentals step-by-step.</p>
+                    
+                    <div class="lesson-categories">
+                        <button class="category-btn active" data-category="openings">Openings</button>
+                        <button class="category-btn" data-category="middlegame">Middle Game</button>
+                        <button class="category-btn" data-category="endgame">Endgame</button>
+                        <button class="category-btn" data-category="tactics">Tactics</button>
+                    </div>
+                </div>
+
+                <div class="lesson-container">
+                    <div class="lesson-board-wrapper">
+                        <div id="lesson-board" class="board-container"></div>
+                    </div>
+
+                    <div class="lesson-text-wrapper">
+                        <div class="lesson-header">
+                            <h3 id="lesson-title">The Italian Game</h3>
+                            <span id="lesson-tag" class="lesson-tag">Opening</span>
+                        </div>
+                        
+                        <div class="lesson-content">
+                            <p id="lesson-explanation">Loading lesson...</p>
+                        </div>
+
+                        <div class="lesson-controls">
+                            <button id="btn-prev-move" class="btn-secondary" disabled>Previous</button>
+                            <button id="btn-next-move" class="btn-primary">Next Move</button>
+                        </div>
+                    </div>
+                </div>
+                <section class="pgn-section">
+                <div class="section-header">
+                    <h2>Analyze Your Games</h2>
+                    <p>Paste your tournament PGN below to load it onto the board.</p>
+                </div>
+                
+                <div class="pgn-container">
+                    <textarea id="pgn-input" placeholder="Paste your PGN here... e.g., 1. e4 e5 2. Nf3 Nc6..."></textarea>
+                    <button id="btn-load-pgn" class="btn-primary">Load Game</button>
+                    <p id="pgn-error" class="error-text"></p>
+                </div>
+            </section>
+            </section>
+        </div>
+
+    </main> 
+    
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-logo">MindScape Chess</div>
+            <p>&copy; 2026 MindScape Chess Chess Academy. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
