@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -29,6 +30,7 @@
                     <li><a href="#" class="nav-link" data-page="about">About</a></li>
                     <li><a href="#" class="nav-link" data-page="classes">Classes</a></li>
                     <li><a href="#" class="nav-link" data-page="learn">Learn</a></li>
+                    <li><a href="#" class="nav-link btn-login" data-page="login">Login</a></li>
                 </ul>
                 <button id="theme-toggle" class="btn-theme">Switch Theme</button>
             </nav>
@@ -269,7 +271,54 @@
             </section>
             </section>
         </div>
+<div id="login" class="page">
+            <section class="login-section">
+                <div class="login-container">
+                    <h2>Access Portal</h2>
+                    <p>Enter your credentials to access the Mind Scape dashboard.</p>
+                    
+                    <form id="mock-login-form" class="contact-form">
+                        <input type="text" id="login-username" placeholder="Username (Hint: type 'mentor')" required>
+                        <input type="password" placeholder="Password (any)" required>
+                        <button type="submit" class="btn-primary">Secure Login</button>
+                    </form>
+                </div>
+            </section>
+        </div>
 
+        <div id="dashboard" class="page">
+            <section class="dashboard-section">
+                <div class="dashboard-header-bar">
+                    <h2>Mind Scape HQ</h2>
+                    <button id="btn-logout" class="btn-secondary btn-small">Logout</button>
+                </div>
+                
+                <div class="dashboard-content">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-label">Current Rating</span>
+                            <h3 class="stat-value">1542</h3>
+                            <span class="stat-trend positive">+42 this month</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Tactics Score</span>
+                            <h3 class="stat-value">88%</h3>
+                            <span class="stat-trend positive">+5% this month</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Lessons Completed</span>
+                            <h3 class="stat-value">24</h3>
+                            <span class="stat-trend neutral">On track</span>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Rating Progression (Last 6 Months)</h3>
+                        <canvas id="eloChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
     </main> 
     
     <footer class="site-footer">
