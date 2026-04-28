@@ -31,6 +31,7 @@
                     <li><a href="#" class="nav-link" data-page="classes">Classes</a></li>
                     <li><a href="#" class="nav-link" data-page="learn">Learn</a></li>
                     <li><a href="#" class="nav-link btn-login" data-page="login">Login</a></li>
+                    <li><a href="#" class="nav-link" data-page="admin-cms">Admin</a></li>
                 </ul>
                 <button id="theme-toggle" class="btn-theme">Switch Theme</button>
             </nav>
@@ -229,11 +230,14 @@
                     <p>Select a phase of the game to study. Master the fundamentals step-by-step.</p>
                     
                     <div class="lesson-categories">
-                        <button class="category-btn active" data-category="openings">Openings</button>
-                        <button class="category-btn" data-category="middlegame">Middle Game</button>
-                        <button class="category-btn" data-category="endgame">Endgame</button>
-                        <button class="category-btn" data-category="tactics">Tactics</button>
+                        <button class="category-btn active" data-tag="Opening">Openings</button>
+                        <button class="category-btn" data-tag="Middle Game">Middle Game</button>
+                        <button class="category-btn" data-tag="Endgame">Endgame</button>
+                        <button class="category-btn" data-tag="Tactics">Tactics</button>
                     </div>
+                    
+                    <div id="dynamic-lesson-list" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); justify-content: center;">
+                        </div>
                 </div>
 
                 <div class="lesson-container">
@@ -278,9 +282,10 @@
                     <p>Enter your credentials to access the Mind Scape dashboard.</p>
                     
                     <form id="mock-login-form" class="contact-form">
-                        <input type="text" id="login-username" placeholder="Username (Hint: type 'mentor')" required>
-                        <input type="password" placeholder="Password (any)" required>
-                        <button type="submit" class="btn-primary">Secure Login</button>
+                        <input type="email" id="login-email" placeholder="Email Address" required>
+                        <input type="password" id="login-password" placeholder="Password" required>
+                        <button type="submit" class="btn-primary" id="btn-login-submit">Secure Login</button>
+                        <p id="login-error" class="error-text" style="margin-top: 10px; display: none; color: #EF4444; font-weight: 600;"></p>
                     </form>
                 </div>
             </section>
@@ -319,6 +324,46 @@
                 </div>
             </section>
         </div>
+
+        <div id="admin-cms" class="page">
+            <section class="dashboard-section">
+                <div class="dashboard-header-bar">
+                    <h2>Instructor CMS</h2>
+                    <p>Publish new interactive board lessons directly to the cloud.</p>
+                </div>
+                
+                <div class="dashboard-content" style="max-width: 800px; margin: 0 auto;">
+                    <form id="lesson-upload-form" class="contact-form" onsubmit="event.preventDefault();">
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <input type="text" id="admin-lesson-title" placeholder="Lesson Title (e.g., The Queen's Gambit)" required>
+                            <select id="admin-lesson-category" required>
+                                <option value="" disabled selected>Select Category</option>
+                                <option value="openings">Openings</option>
+                                <option value="middlegame">Middle Game</option>
+                                <option value="endgame">Endgame</option>
+                                <option value="tactics">Tactics</option>
+                            </select>
+                        </div>
+                        
+                        <input type="text" id="admin-lesson-id" placeholder="Unique Database ID (e.g., queens_gambit_accepted)" required>
+                        <input type="text" id="admin-lesson-fen" placeholder="Starting FEN (Type 'start' for default board)" required>
+
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 12px; margin-top: 15px;">
+                            <h3 style="margin-bottom: 15px; font-size: 1.2rem;">Initial Board Text</h3>
+                            <textarea id="admin-initial-text" placeholder="Explain the starting position to the student..." rows="2" required></textarea>
+                            
+                            <h3 style="margin: 20px 0 15px; font-size: 1.2rem;">Moves Data</h3>
+                            <p style="font-size: 0.85rem; color: #a1a1aa; margin-bottom: 10px;">Format: Move | Explanation (One per line)</p>
+                            <textarea id="admin-moves-data" placeholder="d4 | White controls the center&#10;d5 | Black responds symmetrically&#10;c4 | The Queen's Gambit!" rows="6" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="btn-publish-lesson" style="margin-top: 20px; width: 100%;">Publish to Cloud Database</button>
+                        <p id="admin-upload-status" style="margin-top: 15px; text-align: center; font-weight: 600;"></p>
+                    </form>
+                </div>
+            </section>
+        </div>
     </main> 
     
     <footer class="site-footer">
@@ -329,5 +374,9 @@
     </footer>
 
     <script type="module" src="js/app.js"></script>
+    <!-- <script type="module">
+        import { uploadLessonsToCloud } from './js/upload-lessons.js';
+        uploadLessonsToCloud(); 
+    </script> -->
 </body>
 </html>

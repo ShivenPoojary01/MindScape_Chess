@@ -860,6 +860,30 @@ body {
     margin-bottom: 1.5rem;
     color: var(--text-color);
 }
+/* --- Dynamic Sub-Lesson Buttons --- */
+.sub-lesson-btn {
+    background: transparent;
+    color: #a1a1aa; /* Muted text so it doesn't fight the main categories */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 6px 18px;
+    border-radius: 20px; /* Matches the rounded pill look */
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sub-lesson-btn:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.sub-lesson-btn.active-lesson {
+    color: #ffffff;
+    border-color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.08); /* Slight highlight */
+}
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }

@@ -5,6 +5,7 @@ import { initLessonBoard } from './components/lessonBoard.js';
 import { initRouter } from './components/router.js';
 import { initAnimations } from './components/animations.js'; // <-- Import GSAP logic
 import { initAuth } from './components/auth.js';
+import { initAdmin } from './components/admin.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAuth();
     initChessBoard(); 
     initLessonBoard(); 
-    
     // Fire the animations last so the boards are fully rendered before moving!
     initAnimations(); 
+    initAdmin();
 });
