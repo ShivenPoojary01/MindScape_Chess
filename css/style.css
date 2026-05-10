@@ -884,6 +884,24 @@ body {
     border-color: var(--accent-color);
     background: rgba(255, 255, 255, 0.08); /* Slight highlight */
 }
+/* --- Destructive Action Buttons (Logout) --- */
+.btn-danger {
+    background: transparent;
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 8px 20px;
+    border-radius: 8px; /* Matches your premium UI */
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.8);
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.2);
+}
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }

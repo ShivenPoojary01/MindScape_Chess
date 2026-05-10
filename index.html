@@ -25,14 +25,15 @@
             </button>
 
             <nav class="nav-menu" id="nav-menu">
-                <ul class="nav-links">
-                    <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
-                    <li><a href="#" class="nav-link" data-page="about">About</a></li>
-                    <li><a href="#" class="nav-link" data-page="classes">Classes</a></li>
-                    <li><a href="#" class="nav-link" data-page="learn">Learn</a></li>
-                    <li><a href="#" class="nav-link btn-login" data-page="login">Login</a></li>
-                    <li><a href="#" class="nav-link" data-page="admin-cms">Admin</a></li>
-                </ul>
+<ul class="nav-links">
+    <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+    <li><a href="#" class="nav-link" data-page="about">About</a></li>
+    <li><a href="#" class="nav-link" data-page="classes">Classes</a></li>
+    <li><a href="#" class="nav-link" data-page="learn">Learn</a></li>
+    
+    <li><a href="#" class="nav-link" data-page="admin-cms" style="display: none;">Admin</a></li>
+    <li><a href="#" class="nav-link btn-login" data-page="login" style="display: none;">Login</a></li>
+</ul>
                 <button id="theme-toggle" class="btn-theme">Switch Theme</button>
             </nav>
         </div>
@@ -327,9 +328,13 @@
 
         <div id="admin-cms" class="page">
             <section class="dashboard-section">
-                <div class="dashboard-header-bar">
-                    <h2>Instructor CMS</h2>
-                    <p>Publish new interactive board lessons directly to the cloud.</p>
+                <div class="dashboard-header-bar" style="display: flex; justify-content: space-between; align-items: center; max-width: 800px; margin: 0 auto 30px auto; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 20px;">
+                    <div>
+                        <h2 style="margin-bottom: 5px;">Instructor CMS</h2>
+                        <p style="color: #a1a1aa; font-size: 0.95rem;">Publish new interactive board lessons directly to the cloud.</p>
+                    </div>
+                    
+                    <button id="btn-admin-logout" class="btn-danger">Log Out</button>
                 </div>
                 
                 <div class="dashboard-content" style="max-width: 800px; margin: 0 auto;">
@@ -339,9 +344,9 @@
                             <input type="text" id="admin-lesson-title" placeholder="Lesson Title (e.g., The Queen's Gambit)" required>
                             <select id="admin-lesson-category" required>
                                 <option value="" disabled selected>Select Category</option>
-                                <option value="openings">Openings</option>
+                                <option value="italian_game">Openings</option>
                                 <option value="middlegame">Middle Game</option>
-                                <option value="endgame">Endgame</option>
+                                <option value="endgame_king_pawn">Endgame</option>
                                 <option value="tactics">Tactics</option>
                             </select>
                         </div>

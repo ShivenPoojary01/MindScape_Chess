@@ -1,48 +1,68 @@
-import { initDashboard } from './dashboard.js';
-import { auth } from '../firebase-init.js'; // Pulling in your new Firebase keys
-import { signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { auth } from '../firebase-init.js';
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 export function initAuth() {
     const loginForm = document.getElementById('mock-login-form');
-    const logoutBtn = document.getElementById('btn-logout');
+    const emailInput = document.getElementById('login-email');
+    const passwordInput = document.getElementById('login-password');
     const errorText = document.getElementById('login-error');
-    
-    const pages = document.querySelectorAll('.page');
-    const navLinks = document.querySelectorAll('.nav-link');
-    
+    const submitBtn = document.getElementById('btn-login-submit');
+    const logoutBtn = document.getElementById('btn-admin-logout');
+
+    // Navigation Links (For Ghost Mode)
+    const adminNavLink = document.querySelector('[data-page="admin-cms"]');
+    const loginNavLink = document.querySelector('[data-page="login"]');
+
+    // --- 1. Listen for Login/Logout State Changes (Ghost Mode) ---
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // User is LOGGED IN: Show Admin, Hide Login
+            if (adminNavLink) adminNavLink.style.display = 'block';
+            if (loginNavLink) loginNavLink.style.display = 'none';
+            console.log("Admin is logged in:", user.email);
+        } else {
+            // User is LOGGED OUT: Hide Admin, Show Login
+            if (adminNavLink) adminNavLink.style.display = 'none';
+            if (loginNavLink) loginNavLink.style.display = 'block';
+            console.log("No user logged in.");
+            
+            // Kick them to the home page if they try to stay on the admin page while logged out
+            const activePage = document.querySelector('.page.active');
+            if (activePage && (activePage.id === 'admin-cms' || activePage.id === 'dashboard')) {
+                document.querySelector('[data-page="home"]').click();
+            }
+        }
+    });
+
+    // --- 2. Handle Login Submit ---
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); 
+            e.preventDefault(); // Stop page refresh
             
-            // Get the typed credentials
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            const submitBtn = document.getElementById('btn-login-submit');
-
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+            
             try {
                 submitBtn.innerText = "Authenticating...";
                 submitBtn.disabled = true;
-                
-                // 🚀 The actual Firebase Login Call!
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                
-                console.log("Logged in successfully as:", userCredential.user.email);
                 errorText.style.display = 'none';
 
-                // Success! Route to dashboard
-                pages.forEach(p => p.classList.remove('active'));
-                navLinks.forEach(l => l.classList.remove('active'));
+                // Send credentials to Firebase
+                await signInWithEmailAndPassword(auth, email, password);
                 
-                const dashboardPage = document.getElementById('dashboard');
-                if (dashboardPage) dashboardPage.classList.add('active');
-
-                setTimeout(() => { initDashboard(); }, 100); 
+                // Success! Clear form and redirect to Admin CMS
+                loginForm.reset();
+                document.querySelector('[data-page="admin-cms"]').click();
 
             } catch (error) {
-                // If wrong password or no account exists
-                console.error("Login failed:", error.message);
-                errorText.innerText = "Invalid Email or Password.";
+                console.error("Login failed:", error.code);
                 errorText.style.display = 'block';
+                // Provide user-friendly error messages
+                if (error.code === 'auth/invalid-credential') {
+                    errorText.innerText = "Incorrect email or password.";
+                } else {
+                    errorText.innerText = "Login failed. Please try again.";
+                }
             } finally {
                 submitBtn.innerText = "Secure Login";
                 submitBtn.disabled = false;
@@ -50,22 +70,14 @@ export function initAuth() {
         });
     }
 
+    // --- 3. Handle Logout ---
     if (logoutBtn) {
         logoutBtn.addEventListener('click', async () => {
             try {
-                // 🚀 Tell Firebase to log us out
                 await signOut(auth);
-                console.log("Logged out successfully.");
-                
-                // Route back home
-                const homeLink = document.querySelector('[data-page="home"]');
-                if (homeLink) homeLink.click();
-                
-                // Clear the form
-                document.getElementById('login-email').value = '';
-                document.getElementById('login-password').value = '';
+                // The onAuthStateChanged listener above will automatically handle the UI changes and redirect!
             } catch (error) {
-                console.error("Logout error:", error);
+                console.error("Error signing out:", error);
             }
         });
     }
