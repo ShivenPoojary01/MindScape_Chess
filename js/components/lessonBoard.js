@@ -1,3 +1,4 @@
+import { evaluatePosition } from './evalEngine.js';
 import { Chessboard, FEN } from "https://cdn.jsdelivr.net/npm/cm-chessboard@8/src/Chessboard.js";
 import { Chess } from "https://cdn.jsdelivr.net/npm/chess.js@1.0.0-beta.8/+esm";
 import { db } from '../firebase-init.js'; 
@@ -82,6 +83,9 @@ export async function initLessonBoard() {
         
         board.setPosition(chess.fen(), true);
 
+        // --- NEW: WAKE UP THE AI BRAIN ---
+        evaluatePosition(chess.fen());
+
         prevBtn.disabled = currentStep === 0;
         if (currentStep === lesson.steps.length - 1) {
             nextBtn.innerText = "Complete";
@@ -91,7 +95,6 @@ export async function initLessonBoard() {
             nextBtn.disabled = false;
         }
     }
-
     // --- 3.5 Generate the Sub-Menu ---
     function renderLessonSubMenu(selectedTag) {
         const subMenuContainer = document.getElementById('dynamic-lesson-list');
@@ -227,4 +230,85 @@ export async function initLessonBoard() {
 
     // --- 5. Trigger the Cloud Fetch on Load ---
     fetchLessonsFromCloud();
+}
+// --- 4. The PGN Parsing Engine ---
+export function initPGNParser() {
+    const pgnInput = document.getElementById('pgn-input');
+    const loadBtn = document.getElementById('btn-load-pgn');
+    const errorText = document.getElementById('pgn-error');
+
+    if (!loadBtn) return;
+
+    loadBtn.addEventListener('click', () => {
+        const rawText = pgnInput.value.trim();
+        if (errorText) errorText.innerText = ''; // Clear old errors
+
+        if (!rawText) {
+            if (errorText) errorText.innerText = "Please paste a PGN string first.";
+            return;
+        }
+
+        try {
+            // 1. EXTRACT METADATA (Hunting for the tags)
+            let whitePlayer = "White";
+            let blackPlayer = "Black";
+            
+            const whiteMatch = rawText.match(/\[White\s+"([^"]+)"\]/i);
+            const blackMatch = rawText.match(/\[Black\s+"([^"]+)"\]/i);
+            
+            if (whiteMatch) whitePlayer = whiteMatch[1];
+            if (blackMatch) blackPlayer = blackMatch[1];
+            
+            const matchTitle = `${whitePlayer} vs ${blackPlayer}`;
+            console.log("RAW TEXT GIVEN TO PARSER:", rawText);
+            console.log("EXTRACTED TITLE:", matchTitle);
+
+            // 2. Scrub the PGN String using Regex
+            let cleanText = rawText.replace(/\[.*?\]/g, ''); // Remove headers
+            cleanText = cleanText.replace(/\{.*?\}/g, '');   // Remove comments
+            cleanText = cleanText.replace(/\b\d+\.+/g, '');  // Remove move numbers
+            cleanText = cleanText.replace(/(1-0|0-1|1\/2-1\/2|\*)/g, ''); // Remove results
+
+            // 3. Split by spaces
+            const movesArray = cleanText.split(/\s+/).filter(m => m !== '');
+
+            if (movesArray.length === 0) throw new Error("No readable moves found.");
+
+            // 4. Forge the Custom Lesson Object
+            const pgnLessonData = {
+                title: matchTitle,
+                tag: "Custom PGN",
+                startingFen: "start",
+                initialText: `Match Analysis: ${matchTitle}. Step through the moves below.`,
+                moves: movesArray.map((move, index) => {
+                    const color = index % 2 === 0 ? "White" : "Black";
+                    const moveNum = Math.floor(index / 2) + 1;
+                    return {
+                        move: move,
+                        explanation: `${color} plays ${move} (Move ${moveNum})`
+                    };
+                })
+            };
+
+            // 5. Inject and Hijack
+            lessonDatabase['custom_pgn_load'] = pgnLessonData;
+            loadLesson('custom_pgn_load');
+
+            // 6. FORCE DOM OVERRIDE (With a micro-delay to beat the race condition!)
+            setTimeout(() => {
+                const titleElement = document.getElementById('lesson-title');
+                if (titleElement) {
+                    titleElement.innerText = matchTitle;
+                    console.log("SUCCESS: Title manually overridden to:", matchTitle);
+                }
+            }, 50);
+
+            document.querySelector('.lesson-board-wrapper').scrollIntoView({ behavior: 'smooth' });
+            pgnInput.value = '';
+
+        } catch (err) {
+            console.error("PGN Parsing Error:", err);
+            if (errorText) errorText.innerText = "Error parsing PGN. Ensure it contains standard algebraic notation.";
+        }
+    });
 }

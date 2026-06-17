@@ -226,7 +226,7 @@
 
         <div id="learn" class="page">
             <section class="lesson-section">
-                <div class="section-header">
+<div class="section-header">
                     <h2>Chess Curriculum</h2>
                     <p>Select a phase of the game to study. Master the fundamentals step-by-step.</p>
                     
@@ -238,15 +238,19 @@
                     </div>
                     
                     <div id="dynamic-lesson-list" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); justify-content: center;">
-                        </div>
+                    </div>
                 </div>
 
                 <div class="lesson-container">
-                    <div class="lesson-board-wrapper">
-                        <div id="lesson-board" class="board-container"></div>
+                    
+                    <div class="lesson-board-wrapper board-with-eval" style="display: flex; flex-direction: row; gap: 15px;">
+                        <div class="eval-bar">
+                            <div id="lesson-eval-fill" class="eval-fill"></div>
+                        </div>
+                        <div id="lesson-board" class="board-container" style="width: 100%;"></div>
                     </div>
 
-                    <div class="lesson-text-wrapper">
+<div class="lesson-text-wrapper">
                         <div class="lesson-header">
                             <h3 id="lesson-title">The Italian Game</h3>
                             <span id="lesson-tag" class="lesson-tag">Opening</span>
@@ -256,13 +260,15 @@
                             <p id="lesson-explanation">Loading lesson...</p>
                         </div>
 
+                        <div id="engine-recommendation" class="engine-recommendation"></div>
+
                         <div class="lesson-controls">
                             <button id="btn-prev-move" class="btn-secondary" disabled>Previous</button>
                             <button id="btn-next-move" class="btn-primary">Next Move</button>
                         </div>
                     </div>
-                </div>
-                <section class="pgn-section">
+
+                </div> <section class="pgn-section">
                 <div class="section-header">
                     <h2>Analyze Your Games</h2>
                     <p>Paste your tournament PGN below to load it onto the board.</p>

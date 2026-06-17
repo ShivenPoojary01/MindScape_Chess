@@ -215,26 +215,28 @@ body {
 /* --- Visual Evaluation Bar --- */
 .board-with-eval {
     display: flex;
-    gap: 1rem;
+    flex-direction: row;
+    align-items: stretch; /* 1. Forces the container to stretch items evenly */
+    gap: 15px;
     width: 100%;
-    max-width: 550px; /* Slightly wider to accommodate the bar */
 }
 
 .eval-bar {
     width: 24px;
-    background-color: #334155; /* The "Black" advantage color */
+    align-self: stretch; /* 2. Bulletproof command to match the board's exact height */
+    height: auto; /* 3. Removes the hardcoded limit so it scales infinitely */
+    background-color: #334155; 
     border-radius: 6px;
     overflow: hidden;
     display: flex;
-    align-items: flex-end; /* Anchors the white fill to the bottom */
+    align-items: flex-end; 
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .eval-fill {
     width: 100%;
-    background-color: #F1F5F9; /* The "White" advantage color */
-    height: 50%; /* 50% means the game is perfectly equal */
-    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth sliding animation */
+    background-color: #F1F5F9; 
+    height: 50%; 
 }
 .board-placeholder {
     width: 100%;
@@ -340,21 +342,28 @@ body {
 }
 
 .lesson-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: start;
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+    align-items: stretch;
     background-color: var(--surface-color);
     padding: 3rem;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
-/* Lesson Text & Typography */
+/* Force the two columns to behave */
+.lesson-board-wrapper {
+    flex: 1.5; /* Board gets slightly more space */
+    min-width: 0; /* Prevents blowout */
+}
+
 .lesson-text-wrapper {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    justify-content: space-between; /* Forces header to top, buttons to bottom */
 }
 
 .lesson-header {
@@ -385,17 +394,64 @@ body {
 }
 
 .lesson-content {
-    flex-grow: 1; /* Pushes the buttons to the bottom */
+    flex: 1;           /* Takes up the exact space between the header and buttons */
+    height: 0;         /* CRITICAL: Stops the text from stretching the parent container */
+    overflow-y: auto;  /* Adds a scrollbar ONLY if the text gets too long */
+    margin-bottom: 1.5rem;
+    padding-right: 15px; /* Adds breathing room so text doesn't hit the scrollbar */
     font-size: 1.125rem;
     line-height: 1.8;
     color: var(--text-color);
-    margin-bottom: 2rem;
+}
+/* --- Engine Recommendation UI --- */
+.engine-recommendation {
+    background-color: rgba(56, 189, 248, 0.1); 
+    border-left: 3px solid var(--accent-color);
+    padding: 12px 15px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0; /* Invisible until the AI speaks */
+    transform: translateY(5px);
+    transition: all 0.3s ease;
 }
 
+.engine-recommendation.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ai-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+}
 /* Buttons */
+/* --- Premium Custom Scrollbar for the Text Area --- */
+.lesson-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.lesson-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05); 
+    border-radius: 4px;
+}
+
+.lesson-content::-webkit-scrollbar-thumb {
+    background: var(--accent-color); 
+    border-radius: 4px;
+}
+
+.lesson-content::-webkit-scrollbar-thumb:hover {
+    background: #0ea5e9; 
+}
 .lesson-controls {
     display: flex;
     gap: 1rem;
+    margin-top: auto; /* Pushes the buttons to the bottom of the text wrapper */
 }
 
 .lesson-controls button {
@@ -915,6 +971,43 @@ body {
 }
 /* --- 6. Mobile Media Query --- */
 @media (max-width: 768px) {
+    /* 1. Stack the Lesson Page (Board on top, text below) */
+    .lesson-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 1.5rem; /* Better padding for mobile */
+    }
+
+    .lesson-board-wrapper, .lesson-text-wrapper {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* 2. Shrink the Eval Bar & Hero Board to fit mobile screens */
+    .board-with-eval {
+        display: flex;
+        flex-direction: row; /* Keep the bar next to the board */
+        width: 100%;
+        max-width: 100vw;
+        gap: 10px;
+    }
+
+    .eval-bar {
+        width: 16px; /* Slightly thinner for mobile */
+        min-height: 250px; /* Scale down the height so it doesn't stretch the screen */
+    }
+
+    .board-container {
+        width: 100%; /* Force the chessboard SVG to resize */
+    }
+
+    /* 3. Make sure form inputs don't break out of their containers */
+    #lesson-upload-form > div {
+        grid-template-columns: 1fr !important; /* Stack admin inputs vertically */
+    }
+    
     .hamburger {
         display: block; /* Show hamburger on mobile */
     }
